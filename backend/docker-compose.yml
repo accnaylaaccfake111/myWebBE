@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # mysql:
+  #   image: mysql:8.0
+  #   container_name: nckh-mysql
+  #   environment:
+  #     MYSQL_DATABASE: nckh_db
+  #     MYSQL_USER: nckh_user
+  #     MYSQL_PASSWORD: nckh_pass
+  #     MYSQL_ROOT_PASSWORD: root_pass
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - mysql_data:/var/lib/mysql
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   networks:
+  #     - nckh-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: nckh-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - nckh-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: nckh-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - nckh-network
+
+  minio:
+    image: minio/minio:latest
+    container_name: nckh-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - nckh-network
+
+#  backend:
+#    build: .
+#    container_name: nckh-backend
+#    depends_on:
+#      - redis
+#      - rabbitmq
+#      - minio
+#    environment:
+#      SPRING_PROFILES_ACTIVE: docker
+#      DB_HOST: 103.75.187.176
+#      DB_PORT: 3308
+#      DB_NAME: nckh_db
+#      DB_USERNAME: root
+#      DB_PASSWORD: 123456public
+#      REDIS_HOST: redis
+#      REDIS_PORT: 6379
+#      RABBITMQ_HOST: rabbitmq
+#      RABBITMQ_PORT: 5672
+#      MINIO_ENDPOINT: http://minio:9000
+#      JWT_SECRET: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - nckh-network
+
+networks:
+  nckh-network:
+    driver: bridge
+
+volumes:
+  # mysql_data:  # Commented out since using external MySQL
+  redis_data:
+  rabbitmq_data:
+  minio_data:

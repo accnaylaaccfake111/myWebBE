@@ -1,0 +1,229 @@
+spring:
+  application:
+    name: nckh-cultural-arts-platform
+    
+  profiles:
+    active: dev
+    
+  datasource:
+    url: jdbc:mysql://103.75.187.176:3308/nckh_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456public}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+    show-sql: false
+    open-in-view: false
+    
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:}
+    timeout: 2000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+      cache-null-values: false
+      
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    virtual-host: /
+    
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+      
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
+      
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:momentap202301@gmail.com}
+    password: ${MAIL_PASSWORD:buxgyjzxmzkyvqdt}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    default-encoding: UTF-8
+    
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+
+  ai:
+    openai:
+      api-key: ${GEMINI_API_KEY:AIzaSyB34PT1HE9RkKe1yVhH7KWeyw7frOMdBXo}
+      chat:
+        base-url: https://generativelanguage.googleapis.com
+        completions-path: /v1beta/openai/chat/completions
+        options:
+          model: gemini-2.0-flash
+          temperature: 0.7
+          max-tokens: 1000
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 1800000
+        loggerLevel: full
+
+      FaceSwapService:
+        connectTimeout: 30000
+        readTimeout: 1800000
+        loggerLevel: full
+server:
+  port: ${SERVER_PORT:8080}
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+  error:
+    include-message: always
+    include-binding-errors: always
+
+    
+security:
+  jwt:
+    secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+    expiration: 86400000
+    refresh-expiration: 604800000
+    
+minio:
+  endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+  access-key: ${MINIO_ACCESS_KEY:minioadmin}
+  secret-key: ${MINIO_SECRET_KEY:minioadmin}
+  bucket:
+    default: nckh-media
+    images: nckh-images
+    videos: nckh-videos
+    audio: nckh-audio
+  expiry:
+    default:
+      hours: 24
+
+cloudinary:
+  cloud-name: ${CLOUDINARY_CLOUD_NAME:dmiuw4ekf}
+  api-key: ${CLOUDINARY_API_KEY:662645367879159}
+  api-secret: ${CLOUDINARY_API_SECRET:bGOB_-sPGnX3q_Gkm5XMdZYv55s}
+    
+cors:
+  allowed-origins: ${CORS_ORIGINS:http://localhost:3000,http://localhost:3001,*}
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: "*"
+  allow-credentials: false
+  max-age: 3600
+  
+ai-service:
+  face-swap:
+    url: ${FACESWAP_SERVICE_URL:http://localhost:5001}
+    timeout: 30000
+  suno:
+    api-key: ${API-KEY:e850fb5220d3513bffcdee83e16ba8d8}
+    url: https://api.sunoapi.org/api/v1/generate
+#    call-back-url: http://localhost:8080/api/music/callback
+    call-back-url: https://wavy-supercoincident-artie.ngrok-free.dev/api/music/callback
+  musicgen:
+    # url: ${MUSIC_GEN:http://localhost:5003}
+    url: https://unalternated-penalisable-leana.ngrok-free.dev
+  klangio:
+    api-key: ${KLANGIO_API_KEY:your-klangio-api-key}
+    url: https://api.klang.io
+    callback-url: https://wavy-supercoincident-artie.ngrok-free.dev/api/sheets/callback
+  outfit-merge:
+    url: https://platform.fitroom.app/api/tryon/v2/tasks
+    api-key: ${FIT_ROOM_API_KEY:53990a9529474c248430111b708f1a75958c23d8f1178a6bbb8f2acc9a924eb5}
+  openai:
+    url: https://api.openai.com/v1/audio
+    api-key: ${OPEN_API_KEY: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}
+    model-type: gpt-4o-mini-transcribe
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  health:
+    rabbit:
+      enabled: false
+    redis:
+      enabled: false
+        
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+    
+app:
+  mail:
+    from: ${MAIL_FROM:noreply@nckh-platform.com}
+  frontend:
+    url: ${FRONTEND_URL:http://localhost:3000}
+  backend:
+    url: ${BACKEND_URL:http://localhost:8080}
+
+logging:
+  level:
+    root: INFO
+    com.nckh: DEBUG
+    org.springframework.security: DEBUG
+    feign: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/application.log
+    max-size: 10MB
+    max-history: 30
+
+google:
+  sheets:
+    spreadsheet-id: 1tmJEirxVYFdvdJxA8tfMqX5fcWzRxtGv0WHV1NRNcxY
+    application-name: Cultural App
+    credentials-file-path: credentials.json
+    sheet-name: Nhạc

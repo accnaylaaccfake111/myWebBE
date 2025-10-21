@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác thực email - NCKH Cultural Arts Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 20px;
+        }
+        .logo {
+            color: #007bff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .content {
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 14px;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🎭 NCKH Cultural Arts Platform</div>
+            <h1>Xác thực email của bạn</h1>
+        </div>
+        
+        <div class="content">
+            <p>Xin chào <strong th:text="${username}">User</strong>,</p>
+            
+            <p>Cảm ơn bạn đã đăng ký tài khoản tại NCKH Cultural Arts Platform! 🎉</p>
+            
+            <p>Để hoàn tất quá trình đăng ký và kích hoạt tài khoản của bạn, vui lòng nhấp vào nút bên dưới:</p>
+            
+            <div style="text-align: center;">
+                <a th:href="${verificationUrl}" class="btn">✅ Xác thực email</a>
+            </div>
+            
+            <p>Hoặc bạn có thể sao chép và dán đường link sau vào trình duyệt:</p>
+            <p style="word-break: break-all; background: #f8f9fa; padding: 10px; border-radius: 5px;">
+                <a th:href="${verificationUrl}" th:text="${verificationUrl}">Verification Link</a>
+            </p>
+            
+            <div class="warning">
+                <strong>⏰ Lưu ý quan trọng:</strong><br>
+                Link xác thực này chỉ có hiệu lực trong vòng <strong>24 giờ</strong>. 
+                Sau thời gian này, bạn sẽ cần yêu cầu gửi lại email xác thực.
+            </div>
+            
+            <p>Nếu bạn không đăng ký tài khoản này, vui lòng bỏ qua email này.</p>
+            
+            <p>Trân trọng,<br>
+            <strong>Đội ngũ NCKH Cultural Arts Platform</strong></p>
+        </div>
+        
+        <div class="footer">
+            <p>Email này được gửi tự động, vui lòng không phản hồi.</p>
+            <p>© 2025 NCKH Cultural Arts Platform. All rights reserved.</p>
+            <p>Contract 42-2025/HDKT-TECHBYTE</p>
+        </div>
+    </div>
+</body>
+</html>
